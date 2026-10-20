@@ -1,0 +1,167 @@
+openapi: "3.1.0"
+info:
+  title: "TransportServiceRepo API"
+  description: "TransportServiceRepo API"
+  version: "1.0.0"
+servers:
+  - url: "https://TransportServiceRepo"
+paths:
+  /trajets:
+    get:
+      summary: "GET trajets"
+      operationId: "getTrajetByCode"
+      parameters:
+        - name: "codeTrajet"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Trajet"
+  /terminus:
+    get:
+      summary: "GET terminus"
+      operationId: "getTerminusByName"
+      parameters:
+        - name: "nom"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Terminus"
+  /terminus/{id}:
+    get:
+      summary: "GET terminus/{id}"
+      operationId: "getTerminusById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int32"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Terminus"
+  /lignes:
+    get:
+      summary: "GET lignes"
+      operationId: "getTerminusByName"
+      parameters:
+        - name: "codeLigne"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/LigneDeTransport"
+  /lignes/{codeLigne}/trajets:
+    get:
+      summary: "GET lignes/{codeLigne}/trajets"
+      operationId: "getTrajetsDuLigneDeTransport"
+      parameters:
+        - name: "codeLigne"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/TrajetDTO"
+components:
+  schemas:
+    Transport:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        marque:
+          type: "string"
+        nom:
+          type: "string"
+        capacite:
+          type: "integer"
+          format: "int32"
+        statut:
+          type: "string"
+          enum:
+            - "EN_SERVICE"
+            - "HORS_SERVICE"
+            - "EN_MAINTENANCE"
+    Terminus:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        nom:
+          type: "string"
+        adresse:
+          type: "string"
+    LigneDeTransport:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        codeLigne:
+          type: "string"
+        terminusDepart:
+          $ref: "#/components/schemas/Terminus"
+        terminusArrivee:
+          $ref: "#/components/schemas/Terminus"
+    Trajet:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        codeTrajet:
+          type: "string"
+        moyenDeTransport:
+          $ref: "#/components/schemas/Transport"
+        ligneDeTransport:
+          $ref: "#/components/schemas/LigneDeTransport"
+    TrajetDTO:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        codeTrajet:
+          type: "string"
+        moyenDeTransport:
+          $ref: "#/components/schemas/Transport"

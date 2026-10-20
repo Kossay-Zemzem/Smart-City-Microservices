@@ -1,0 +1,75 @@
+#Queries========================================================
+type Query {
+    #Get spot by ID
+    spotById(id: ID): Spot
+
+    #Get spot by code and etage label
+    spotByCode(codeSpot: String,labelEtage: String): Spot
+
+    #Get empty spots only
+    emptySpots: [Etage]
+
+    #Get etage by ID
+    etageById(id: ID): Etage
+
+    #Get etage by its label
+    EtageByLabel(labelEtage: String): Etage
+
+    #Get all etages of the parking
+    getAllEtages: [Etage]
+
+    #Get all reservations
+    getAllResrervations: [ReservationData]
+
+    #Get reservations by client reference
+    getReservationsByRefClient(refClient: String): [ReservationData]
+}
+#Mutations========================================================
+type Mutation {
+    #Reserve a parking spot
+    reserveSpot(Reservation: Reservation): Facture
+}
+
+#Types========================================================
+enum ParkingSpotType {
+    NORMAL,
+    VIP
+}
+
+type Spot{
+    id: ID
+    code: String
+    type: ParkingSpotType
+    isOccupied: Boolean
+}
+
+type Etage{
+    id: ID
+    label: String
+    capacity: Int
+    hasPaymentKiosk: Boolean
+    spots: [Spot]
+}
+
+type Facture{
+    refFacture: String
+    refClient: String
+    spot: Spot
+    etageLabel: String
+    durationInHours: Int
+    prixTTC: Float
+}
+
+input Reservation{
+    spotCode: String
+    etageLabel: String
+    durationInHours: Int
+    refClient: String
+}
+
+type ReservationData{
+    spotCode: String
+    etageLabel: String
+    durationInHours: Int
+    refClient: String
+}

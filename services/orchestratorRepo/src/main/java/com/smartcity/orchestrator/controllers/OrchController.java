@@ -1,0 +1,140 @@
+package com.smartcity.orchestrator.controllers;
+
+import com.example.proxy.FactureDTO;
+import com.example.proxy.FactureRequest;
+import com.smartcity.orchestrator.DTOs.*;
+import com.smartcity.orchestrator.clients.FactureSOAPClient;
+import com.smartcity.orchestrator.clients.ParkingGraphQLClient;
+import com.smartcity.orchestrator.clients.TransportRESTClient;
+import com.smartcity.orchestrator.utility.SoapFactureMapper;
+import jakarta.ws.rs.QueryParam;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/smartcity")
+public class OrchController {
+    private static final Logger LG = LogManager.getLogger();
+
+    private final TransportRESTClient transportClient ;
+    private final ParkingGraphQLClient parkingClient ;
+    private final FactureSOAPClient factureClient ;
+    private final SoapFactureMapper soapFactureMapper;
+
+    @Autowired
+    public OrchController(TransportRESTClient transportClient, ParkingGraphQLClient parkingClient, FactureSOAPClient factureClient, SoapFactureMapper soapFactureMapper) {
+        this.transportClient = transportClient;
+        this.parkingClient = parkingClient;
+        this.factureClient = factureClient;
+        this.soapFactureMapper = soapFactureMapper;
+    }
+
+    //Mixed microservice calls --------------------------------------
+
+    //Scenario de Reservation d'un spot de parking par l'appelle POST /parking/reservation
+    @PostMapping("/parking/reservation")
+    public FactureParking reserverSpotParking(@RequestBody ReservationParking reservation) {
+
+        //1.Appeler GraphQL parking pour reserver (ParkingGraphQLClient)
+        FactureParking facture= parkingClient.reserveSpot(reservation);
+        LG.info("Facture Parking received in Orchestrator: {}", facture.getRefFacture());
+
+        //2. Recevoir objet FactureParking et le transformer en FactureRequest pour appel SOAP
+        FactureRequest factureRequest = soapFactureMapper.mapToFactureRequest(facture);
+
+        //3. Appeler service SOAP pour enregistrer la facture
+        factureClient.generateFacture(factureRequest);
+
+        //4. Renvoyer la facture
+        return facture;
+    }
+
+    //Parking microservice calls --------------------------------------
+    @GetMapping("/parking/spots/empty")
+    public List<EtageDTO> getEtagesWithEmptySpots() {
+        return parkingClient.getEmptySpots();
+    }
+
+    //brief version of the previous method (Utilize GraphQL Projections to limit data returned to necessary fields only)
+    @GetMapping("/parking/spots/empty/brief")
+    public List<EtageBriefDTO> getEtagesWithEmptySpotsBrief() {
+        return parkingClient.getEmptySpotsBrief();
+    }
+
+    @GetMapping("/parking/etages")
+    public List<EtageBriefDTO> getAllEtages() {
+        return parkingClient.getAllEtages();
+    }
+
+    @GetMapping("/parking/etages/{labelEtage}")
+    public EtageDTO getEtageByLabel(@PathVariable("labelEtage") String labelEtage) {
+        return parkingClient.getEtageByLabel(labelEtage);
+    }
+
+    @GetMapping("/parking/etages/{labelEtage}/spots/{codeSpot}")
+    public SpotBriefDTO getSpotByCodeAndEtage(@PathVariable("labelEtage") String labelEtage,
+                                         @PathVariable("codeSpot") String codeSpot) {
+        return parkingClient.getSpotByCode(codeSpot,labelEtage);
+    }
+
+    @GetMapping("/parking/reservations")
+    public List<ReservationData> getAllReservations() {
+        return parkingClient.getAllReservations();
+    }
+
+    @GetMapping("/parking/reservations/{refClient}")
+    public List<ReservationData> getReservationsByClientRef(@PathVariable("refClient") String refClient) {
+        return parkingClient.getReservationsByRefClient(refClient);
+    }
+
+
+    //Transport microservice calls --------------------------------------
+    @GetMapping("/transport/terminus")
+    public List<TerminusDTO> getAllTerminus() {
+        List<TerminusDTO> terminusList = transportClient.getAllTerminus();
+        LG.info("Terminus List from Transport Service: {}", terminusList.get(0).getNom());
+        return terminusList ;
+    }
+
+    @GetMapping("/transport/lignes")
+    public List<LigneDeTransportDTO> getAllLignesDeTransport() {
+        return transportClient.getAllLignesDeTransport();
+    }
+
+    @GetMapping("/transport/lignes/{codeLigne}/trajets")
+    public List<TrajetDTO> getTrajetsDuLigneDeTransport(@PathVariable("codeLigne") String codeLigne) {
+        LG.info("Fetching trajets for ligne code: {}", codeLigne);
+        return transportClient.getTrajetsDuLigneDeTransport(codeLigne);
+    }
+
+    //Facture microservice calls --------------------------------------
+    @GetMapping("/factures/clients/count")
+    public Long countClients() {
+        return factureClient.countClients();
+    }
+
+    @GetMapping("/factures/clients")
+    public Object getAllClients() {
+        return factureClient.getAllClients();
+    }
+
+    //Methode pour retourner les types de factures supportés
+    @GetMapping("/factures/types")
+    public Map<String, Object> getFacturesByTypeQueryParam() {
+        return java.util.Map.of(
+                "supportedTypes", List.of(TypeFacture.EAU.name(), TypeFacture.ELECT.name(), TypeFacture.PARKING.name())
+        );
+    }
+
+    @GetMapping("/factures/{type}")
+    //Types possible: ELECTRIQUE, EAU, PARKING
+    public List<FactureDTO> getAllFacturesByType(@PathVariable("type") String type) {
+        return factureClient.getAllFactureParType(type);
+    }
+
+}

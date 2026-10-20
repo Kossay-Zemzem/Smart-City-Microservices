@@ -1,0 +1,427 @@
+openapi: "3.1.0"
+info:
+  title: "orchestratorRepo API"
+  description: "orchestratorRepo API"
+  version: "1.0.0"
+servers:
+  - url: "https://orchestratorRepo"
+paths:
+  /smartcity/factures/clients:
+    get:
+      summary: "GET smartcity/factures/clients"
+      operationId: "getAllClients"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Object"
+  /smartcity/factures/clients/count:
+    get:
+      summary: "GET smartcity/factures/clients/count"
+      operationId: "countClients"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "integer"
+                format: "int64"
+  /smartcity/factures/types:
+    get:
+      summary: "GET smartcity/factures/types"
+      operationId: "getFacturesByTypeQueryParam"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+  /smartcity/factures/{type}:
+    get:
+      summary: "GET smartcity/factures/{type}"
+      operationId: "getAllFacturesByType"
+      parameters:
+        - name: "type"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/FactureDTO"
+  /smartcity/parking/etages:
+    get:
+      summary: "GET smartcity/parking/etages"
+      operationId: "getAllEtages"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/EtageBriefDTO"
+  /smartcity/parking/etages/{labelEtage}:
+    get:
+      summary: "GET smartcity/parking/etages/{labelEtage}"
+      operationId: "getEtageByLabel"
+      parameters:
+        - name: "labelEtage"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/EtageDTO"
+  /smartcity/parking/etages/{labelEtage}/spots/{codeSpot}:
+    get:
+      summary: "GET smartcity/parking/etages/{labelEtage}/spots/{codeSpot}"
+      operationId: "getSpotByCodeAndEtage"
+      parameters:
+        - name: "labelEtage"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "codeSpot"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/SpotBriefDTO"
+  /smartcity/parking/reservation:
+    post:
+      summary: "POST smartcity/parking/reservation"
+      operationId: "reserverSpotParking"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReservationParking"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/FactureParking"
+  /smartcity/parking/reservations:
+    get:
+      summary: "GET smartcity/parking/reservations"
+      operationId: "getAllReservations"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/ReservationData"
+  /smartcity/parking/reservations/{refClient}:
+    get:
+      summary: "GET smartcity/parking/reservations/{refClient}"
+      operationId: "getReservationsByClientRef"
+      parameters:
+        - name: "refClient"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/ReservationData"
+  /smartcity/parking/spots/empty:
+    get:
+      summary: "GET smartcity/parking/spots/empty"
+      operationId: "getEtagesWithEmptySpots"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/EtageDTO"
+  /smartcity/parking/spots/empty/brief:
+    get:
+      summary: "GET smartcity/parking/spots/empty/brief"
+      operationId: "getEtagesWithEmptySpotsBrief"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/EtageBriefDTO"
+  /smartcity/transport/lignes:
+    get:
+      summary: "GET smartcity/transport/lignes"
+      operationId: "getAllLignesDeTransport"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/LigneDeTransportDTO"
+  /smartcity/transport/lignes/{codeLigne}/trajets:
+    get:
+      summary: "GET smartcity/transport/lignes/{codeLigne}/trajets"
+      operationId: "getTrajetsDuLigneDeTransport"
+      parameters:
+        - name: "codeLigne"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/TrajetDTO"
+  /smartcity/transport/terminus:
+    get:
+      summary: "GET smartcity/transport/terminus"
+      operationId: "getAllTerminus"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/TerminusDTO"
+components:
+  schemas:
+    Object:
+      type: "object"
+      properties: { }
+    XMLGregorianCalendar:
+      type: "object"
+      properties: { }
+    FactureDTO:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        refFacture:
+          type: "string"
+        type:
+          type: "string"
+          enum:
+            - "ELECT"
+            - "EAU"
+            - "PARKING"
+        montantHT:
+          type: "number"
+          format: "double"
+        montantTTC:
+          type: "number"
+          format: "double"
+        dateEmission:
+          $ref: "#/components/schemas/XMLGregorianCalendar"
+        dateLimitePaiement:
+          $ref: "#/components/schemas/XMLGregorianCalendar"
+        prixUnitaire:
+          type: "number"
+          format: "double"
+        consomationTotal:
+          type: "integer"
+          format: "int32"
+        prixServiceSuppl:
+          type: "number"
+          format: "double"
+        clientRef:
+          type: "string"
+        clientNom:
+          type: "string"
+        codeSpot:
+          type: "string"
+        typeSpot:
+          type: "string"
+          enum:
+            - "NORMAL"
+            - "VIP"
+        isOccupied:
+          type: "boolean"
+        etageLabel:
+          type: "string"
+        durationInHours:
+          type: "integer"
+          format: "int32"
+    SpotBriefDTO:
+      type: "object"
+      properties:
+        code:
+          type: "string"
+        type:
+          type: "string"
+    EtageBriefDTO:
+      type: "object"
+      properties:
+        label:
+          type: "string"
+        hasPaymentKiosk:
+          type: "boolean"
+        spots:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/SpotBriefDTO"
+    SpotDTO:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+        code:
+          type: "string"
+        type:
+          type: "string"
+    EtageDTO:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+        label:
+          type: "string"
+        capacity:
+          type: "integer"
+          format: "int32"
+        hasPaymentKiosk:
+          type: "boolean"
+        spots:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/SpotDTO"
+    ReservationParking:
+      type: "object"
+      properties:
+        spotCode:
+          type: "string"
+        etageLabel:
+          type: "string"
+        durationInHours:
+          type: "integer"
+          format: "int32"
+        refClient:
+          type: "string"
+    FactureParking:
+      type: "object"
+      properties:
+        refFacture:
+          type: "string"
+        refClient:
+          type: "string"
+        etageLabel:
+          type: "string"
+        durationInHours:
+          type: "integer"
+          format: "int32"
+        prixTTC:
+          type: "number"
+          format: "double"
+        spot:
+          $ref: "#/components/schemas/SpotDTO"
+    ReservationData:
+      type: "object"
+      properties:
+        spotCode:
+          type: "string"
+        etageLabel:
+          type: "string"
+        durationInHours:
+          type: "integer"
+          format: "int32"
+        refClient:
+          type: "string"
+    TerminusDTO:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        nom:
+          type: "string"
+        adresse:
+          type: "string"
+    LigneDeTransportDTO:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        codeLigne:
+          type: "string"
+        terminusDepart:
+          $ref: "#/components/schemas/TerminusDTO"
+        terminusArrivee:
+          $ref: "#/components/schemas/TerminusDTO"
+    TransportDTO:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        marque:
+          type: "string"
+        nom:
+          type: "string"
+        capacite:
+          type: "integer"
+          format: "int32"
+        statut:
+          type: "string"
+          enum:
+            - "EN_SERVICE"
+            - "HORS_SERVICE"
+            - "EN_MAINTENANCE"
+    TrajetDTO:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        codeTrajet:
+          type: "string"
+        moyenDeTransport:
+          $ref: "#/components/schemas/TransportDTO"
