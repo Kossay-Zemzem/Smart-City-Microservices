@@ -12,7 +12,8 @@ The system consists of three core microservices that handle the business logic:
 * **Billing Service (Service Facture) :** Manages client records and tracks various invoice types such as electricity, water, and parking.
 * **Transport Service (Service Transport) :** Manages public transit infrastructure, including available transport lines, routes, and terminal points.
 
-**Project Scope :** Development for each of the three core services focused primarily on core read/query workflows due to time constraints, as the project's main objective is microservice orchestration rather than exhaustive API development. While a fully complete API would include endpoints to create and delete administrative data from the system, these were deferred to a later phase, and sample data was manually injected for this initial release.
+### Project Scope
+Development for each of the three core services focused primarily on core read/query workflows due to time constraints, as the project's main objective is microservice orchestration rather than exhaustive API development. While a fully complete API would include endpoints to create and delete administrative data from the system, these were deferred to a later phase, and sample data was manually injected for this initial release.
 
 ## Technologies & Tools
 
@@ -29,17 +30,17 @@ The system consists of three core microservices that handle the business logic:
  
 Smart City project consists of 6 microservices in total , each has its own github repository linked below :
 
-- **Discovery service** :
+- **Discovery service** : https://github.com/Kossay-Zemzem/Smart-City-Discovery-Service
 
-- **Gateway service** :
+- **Gateway service** : https://github.com/Kossay-Zemzem/Smart-City-Gateway
 
-- **Orchestrator service** :
+- **Orchestrator service** : https://github.com/Kossay-Zemzem/SmartCity-Orchestrator
 
-- **Transport service** :
+- **Transport service** : https://github.com/Kossay-Zemzem/Smart-City-Transport-Service
 
-- **Parking service** :
+- **Parking service** : https://github.com/Kossay-Zemzem/Smart-City-Parking-Service
 
-- **Facture service** :
+- **Billing service** : https://github.com/Kossay-Zemzem/Smart-City-Facture-Service
 
 ## System Design
 
@@ -94,13 +95,16 @@ Bash
 
 5- Start Parking service 
 
-6- Start Facture service 
+6- Start Billing service (Service Facture)
 
 7- Wait a few seconds before performing any API calls (Gateway service might take a few seconds to start routing to services )
 
 8-  You can start making API calls to the `Orchestrator` service at `http://localhost:8080` using Postman (Refer to the Orchestrator API summary for available endpoints)
 
-> **ℹ️ Note** : The orchestrator project inludes the generated sources (proxy) for the SOAP stub to facilitate running (no need to manually generate sources using `wsimport`).
+> [!IMPORTANT]
+> This orchestrator intentionally includes generated sources in the `target` folder to facilitate demonstration and testing. **Generated sources are normally not versioned**, but an exception was made here because generating SOAP client stubs correctly can be tricky. These sources include the SOAP client stubs produced from the [Billing Service's WSDL specification](https://github.com/Kossay-Zemzem/Smart-City-Microservices/blob/main/specs/Facture-service.wsdl), which the Orchestrator needs in order to communicate with that service.
+>
+> Do not run `mvn clean` on the Orchestrator, as this deletes the `target` folder along with these sources. If you do you will have to regenerate them using the [wsimport command-line tool](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/wsimport.html)
 
 
 ## API sepcifications
