@@ -77,7 +77,7 @@ This project uses an **H2 embedded database** for the three core services (Billi
 
 **Prerequisite:** JDK 17 or higher is required.
 
-To start all services, you need to execute the standard Spring Boot run command on each of the **6 services**. You can [clone the repository of each service] or clone this repository which which includes a demonstration copy of all 6 services. 
+To start all services, you need to execute the standard Spring Boot run command on each of the **6 services**. You can [clone the repository of each service](#microservices-included) or clone this repository which which includes a **demonstration copy** of all 6 services in the `services` folder.
 
 Bash
 
@@ -102,9 +102,9 @@ Bash
 8-  You can start making API calls to the `Orchestrator` service at `http://localhost:8080` using Postman (Refer to the Orchestrator API summary for available endpoints)
 
 > [!IMPORTANT]
-> This orchestrator intentionally includes generated sources in the `target` folder to facilitate demonstration and testing. **Generated sources are normally not versioned**, but an exception was made here because generating SOAP client stubs correctly can be tricky. These sources include the SOAP client stubs produced from the [Billing Service's WSDL specification](https://github.com/Kossay-Zemzem/Smart-City-Microservices/blob/main/specs/Facture-service.wsdl), which the Orchestrator needs in order to communicate with that service.
+> The demonstration copy of the orchestrator service in this repository intentionally includes generated sources in the `target` folder to facilitate demonstration and testing. **Generated sources are not versioned in the actual development repository**, they were included here because generating SOAP client stubs correctly can be tricky. These sources include the SOAP client stubs produced from the [Billing Service's WSDL specification](https://github.com/Kossay-Zemzem/Smart-City-Microservices/blob/main/specs/Facture-service.wsdl), which the Orchestrator needs in order to communicate with that service.
 >
-> Do not run `mvn clean` on the Orchestrator, as this deletes the `target` folder along with these sources. If you do you will have to regenerate them using the [wsimport command-line tool](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/wsimport.html)
+> Do not run `mvn clean` on the demonstration copy of the orchestrator, as this deletes the `target` folder along with these sources. If you do you will have to regenerate them using the [wsimport command-line tool](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/wsimport.html)
 
 
 ## API sepcifications
