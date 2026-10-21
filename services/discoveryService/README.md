@@ -5,8 +5,6 @@
 
 ## Service description
 
-The Dsicovery Service  as the internal communication bridge that routes requests to the core services of the project using **Spring Cloud Gateway**.
-
 The Dsicovery Service enables dynamic service registration and discovery, allowing microservices to locate and communicate with each other reliably in a distributed environment using **Netflix Eureka**
 
 
