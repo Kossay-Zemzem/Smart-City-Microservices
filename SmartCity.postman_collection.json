@@ -1,0 +1,354 @@
+{
+  "info": {
+    "_postman_id": "87455eb9-b07b-422f-80a1-a0db2f25a644",
+    "name": "Orchestrator",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "45455747"
+  },
+  "item": [
+    {
+      "name": "Liste des terminus",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {}
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/smartcity/transport/terminus",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "smartcity",
+            "transport",
+            "terminus"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Trajet d'un ligne",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {}
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/smartcity/transport/lignes/LT101/trajets",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "smartcity",
+            "transport",
+            "lignes",
+            "LT101",
+            "trajets"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Liste des lignes",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {}
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/smartcity/transport/lignes",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "smartcity",
+            "transport",
+            "lignes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Créer une réservation parking",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"spotCode\": \"A10\",\r\n  \"etageLabel\": \"F2\",\r\n  \"durationInHours\": 4,\r\n  \"refClient\": \"CLIENT-001\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/smartcity/parking/reservation",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "smartcity",
+            "parking",
+            "reservation"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Nombre de clients",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/smartcity/factures/clients/count",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "smartcity",
+            "factures",
+            "clients",
+            "count"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Liste des clients",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/smartcity/factures/clients",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "smartcity",
+            "factures",
+            "clients"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Liste factures par type",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/smartcity/factures/PARKING",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "smartcity",
+            "factures",
+            "PARKING"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Types de factures",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/smartcity/factures/types",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "smartcity",
+            "factures",
+            "types"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Places parking vides",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/smartcity/parking/spots/empty",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "smartcity",
+            "parking",
+            "spots",
+            "empty"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Places parking vides (Résumé)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/smartcity/parking/spots/empty/brief",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "smartcity",
+            "parking",
+            "spots",
+            "empty",
+            "brief"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Liste des étages",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/smartcity/parking/etages",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "smartcity",
+            "parking",
+            "etages"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Détails d'un étage",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/smartcity/parking/etages/F0",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "smartcity",
+            "parking",
+            "etages",
+            "F0"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Détails d'une place parking",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/smartcity/parking/etages/F0/spots/A1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "smartcity",
+            "parking",
+            "etages",
+            "F0",
+            "spots",
+            "A1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Liste des réservations parking",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/smartcity/parking/reservations",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "smartcity",
+            "parking",
+            "reservations"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Liste des réservations par ref client",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/smartcity/parking/reservations/CLIENT-001",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "smartcity",
+            "parking",
+            "reservations",
+            "CLIENT-001"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

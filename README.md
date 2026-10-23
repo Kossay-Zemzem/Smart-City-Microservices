@@ -111,6 +111,7 @@ Bash
 
 Detailed technical documentation for the orchestrator as well as each core microservice (OpenAPI, WSDL and SDL) can be found in the the designated [specs](./specs) folder in this repository.
 
+A [Postman collection](./SmartCity.postman_collection.json) featuring request examples for all endpoints is also available for quick testing.
 ## Orchestrator API Summary
 
 > [You can read the original version of this API summary in French](./API_SUMMARY_FR.md)
